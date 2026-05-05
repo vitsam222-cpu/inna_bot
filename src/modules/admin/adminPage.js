@@ -1,0 +1,3 @@
+export function renderAdminPage(adminKey) {
+  return `<!doctype html><html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>MAX Bot Admin</title><link rel="stylesheet" href="/css/admin.css"></head><body><main><h1>MAX Bot Admin</h1><p>Минималистичный редактор сценариев + граф переходов.</p><section><button id="save">Сохранить</button></section><section><h2>Welcome</h2><input id="welcomeText" placeholder="Приветственное сообщение" /></section><section><h2>Шаги (JSON)</h2><textarea id="steps"></textarea></section><section><h2>Граф</h2><div id="graph"></div></section></main><script>window.ADMIN_KEY='${adminKey}'</script><script src="/js/admin.js"></script></body></html>`;
+}
