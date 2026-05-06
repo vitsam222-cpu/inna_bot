@@ -54,10 +54,7 @@ function toButtons(step) {
 
 async function sendStart(chatId) {
   const scenario = loadScenario();
-  const welcomeText = scenario?.welcome?.text || 'Привет!';
   const startStep = scenario.steps.find((step) => step.id === scenario.startStepId);
-
-  await sendMessage(chatId, welcomeText, []);
 
   if (startStep) {
     await sendMessage(chatId, startStep.text || '', toButtons(startStep));

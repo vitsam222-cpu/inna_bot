@@ -158,7 +158,6 @@ document.getElementById('addStep').onclick = () => {
 
 document.getElementById('save').onclick = async () => {
   const payload = collect();
-  if (!payload.welcome.text) return alert('Добавь приветствие');
   if (!payload.steps.length) return alert('Добавь хотя бы один шаг');
   if (!payload.steps.some((step) => step.id === payload.startStepId)) return alert('Выбери стартовый шаг');
 
