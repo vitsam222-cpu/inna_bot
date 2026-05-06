@@ -20,7 +20,7 @@ export const env = {
   port: Number(process.env.PORT || 8080),
   baseUrl: process.env.BASE_URL || 'http://localhost:8080',
   maxToken: process.env.MAX_BOT_TOKEN || '',
-  maxApiBase: process.env.MAX_API_BASE || 'https://botapi.max.ru',
+  maxApiBase: process.env.MAX_API_BASE || 'https://platform-api.max.ru',
   adminKey: process.env.ADMIN_KEY || 'change_me',
   dataDir: process.env.DATA_DIR || './data',
   uploadDir: process.env.UPLOAD_DIR || './src/public/uploads'

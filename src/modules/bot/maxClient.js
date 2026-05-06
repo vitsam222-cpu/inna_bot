@@ -1,22 +1,63 @@
 import { env } from '../../config/env.js';
 
+function buildKeyboard(buttons) {
+  if (!buttons.length) return [];
+
+  return [
+    {
+      type: 'inline_keyboard',
+      payload: {
+        buttons: buttons.map((button) => [button])
+      }
+    }
+  ];
+}
+
+function toMaxButton(button) {
+  if (button.type === 'url') {
+    return {
+      type: 'link',
+      text: button.text,
+      url: button.url
+    };
+  }
+
+  return {
+    type: 'callback',
+    text: button.text,
+    payload: button.payload
+  };
+}
+
 export async function sendMessage(chatId, text, buttons = []) {
-  if (!env.maxToken) return { skipped: true };
+  if (!env.maxToken) {
+    console.warn('[max] MAX_BOT_TOKEN is empty, message was not sent');
+    return { skipped: true };
+  }
+
+  const url = new URL('/messages', env.maxApiBase);
+  url.searchParams.set('chat_id', String(chatId));
+
   const payload = {
-    chat_id: chatId,
     text,
-    inline_keyboard: buttons.map((b) => [{ text: b.text, callback_data: b.value }])
+    attachments: buildKeyboard(buttons.map(toMaxButton))
   };
 
-  const res = await fetch(`${env.maxApiBase}/messages/send?access_token=${env.maxToken}`, {
+  console.log(`[max] sending message to chat_id=${chatId}`);
+
+  const res = await fetch(url, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      Authorization: env.maxToken,
+      'content-type': 'application/json'
+    },
     body: JSON.stringify(payload)
   });
 
+  const body = await res.text();
   if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`MAX API error: ${res.status} ${err}`);
+    throw new Error(`MAX API error: ${res.status} ${body}`);
   }
-  return res.json().catch(() => ({}));
+
+  return body ? JSON.parse(body) : {};
 }
