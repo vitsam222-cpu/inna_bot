@@ -214,3 +214,38 @@ curl -k -X POST "https://YOUR_SERVER_IP/webhook/max" \
 Если ответ `ok`, значит сервер принимает webhook по HTTPS.
 
 Важно: самоподписанный сертификат может работать для webhook по документации MAX, но браузер будет показывать предупреждение безопасности. Для нормальной админки без предупреждений лучше потом подключить домен и бесплатный Let's Encrypt SSL.
+
+
+## Почему `https://IP:8080/webhook/max` не открывается
+
+Адрес вида `https://IP:8080/webhook/max` обычно не откроется, потому что Node.js приложение слушает на 8080 **обычный HTTP**, а не HTTPS.
+
+Для проверки самого приложения используйте:
+
+```text
+http://YOUR_SERVER_IP:8080/health
+```
+
+Или webhook-ручку в браузере:
+
+```text
+http://YOUR_SERVER_IP:8080/webhook/max
+```
+
+Для MAX webhook нужен HTTPS. Без отдельного домена самый простой вариант — поставить Nginx на 443 порт и проксировать на приложение:
+
+```text
+https://YOUR_SERVER_IP/webhook/max -> http://127.0.0.1:8080/webhook/max
+```
+
+Обратите внимание: в HTTPS варианте порт `8080` в адресе не нужен. Правильно:
+
+```text
+https://YOUR_SERVER_IP/webhook/max
+```
+
+Неправильно:
+
+```text
+https://YOUR_SERVER_IP:8080/webhook/max
+```

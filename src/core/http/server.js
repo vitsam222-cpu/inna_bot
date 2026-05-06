@@ -13,6 +13,8 @@ function auth(url){return url.searchParams.get('key')===env.adminKey;}
 export function createServer(){
   return http.createServer(async (req,res)=>{
     const url = new URL(req.url, env.baseUrl);
+    if(req.method==='GET' && url.pathname==='/health') return send(res,200,'ok');
+    if(req.method==='GET' && url.pathname==='/webhook/max') return send(res,200,'MAX webhook endpoint is alive. Use POST requests from MAX here.');
     if(req.method==='GET' && url.pathname==='/admin') return send(res,200,renderAdminPage(env.adminKey),'text/html');
     if(req.method==='GET' && url.pathname==='/api/admin/scenario'){
       if(!auth(url)) return send(res,403,'forbidden');
