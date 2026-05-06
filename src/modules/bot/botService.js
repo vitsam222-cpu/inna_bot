@@ -3,6 +3,25 @@ import { sendMessage } from './maxClient.js';
 
 const sessions = new Map();
 
+function extractChatId(update) {
+  return (
+    update?.message?.chat?.id ||
+    update?.callback_query?.message?.chat?.id ||
+    update?.chat_id ||
+    update?.chatId ||
+    null
+  );
+}
+
+function extractText(update) {
+  return (
+    update?.message?.text ||
+    update?.message?.body?.text ||
+    update?.text ||
+    ''
+  );
+}
+
 function toButtons(step) {
   return (step.buttons || []).map((b) => ({
     text: b.text,
@@ -10,14 +29,29 @@ function toButtons(step) {
   }));
 }
 
+async function sendWelcome(chatId) {
+  const scenario = loadScenario();
+  const welcomeText = scenario?.welcome?.text || 'Привет!';
+  await sendMessage(chatId, welcomeText, []);
+}
+
 export async function handleWebhook(update) {
-  const chatId = update?.message?.chat?.id || update?.callback_query?.message?.chat?.id;
+  const chatId = extractChatId(update);
   if (!chatId) return;
 
-  if (update?.message?.text === '/start') {
-    const scenario = loadScenario();
+  const text = extractText(update).trim();
+
+  // Базовый MVP: первое сообщение пользователя -> приветствие.
+  if (!sessions.has(chatId)) {
     sessions.set(chatId, 'start');
-    await sendMessage(chatId, scenario.welcome.text || 'Привет!', []);
+    await sendWelcome(chatId);
+    return;
+  }
+
+  // Явный перезапуск диалога.
+  if (text === '/start') {
+    sessions.set(chatId, 'start');
+    await sendWelcome(chatId);
     return;
   }
 

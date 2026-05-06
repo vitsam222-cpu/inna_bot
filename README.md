@@ -43,3 +43,24 @@ pm2 startup
 - `src/modules/admin` — HTML админка.
 - `src/modules/storage` — файловое хранилище JSON.
 - `src/public` — статика и загруженные файлы.
+
+
+## Обновление на VDS одной командой
+
+1. На VDS в папке проекта сделайте скрипт исполняемым:
+
+```bash
+chmod +x deploy.sh
+```
+
+2. Запускайте обновление так:
+
+```bash
+./deploy.sh
+```
+
+Можно переопределить параметры:
+
+```bash
+APP_DIR=/opt/inna_bot BRANCH=main PM2_NAME=max-bot ./deploy.sh
+```
