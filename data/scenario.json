@@ -1,0 +1,15 @@
+{
+  "startStepId": "start",
+  "welcome": {
+    "text": "Привет! Добро пожаловать.",
+    "image": ""
+  },
+  "steps": [
+    {
+      "id": "start",
+      "text": "Это первый шаг",
+      "image": "",
+      "buttons": []
+    }
+  ]
+}
