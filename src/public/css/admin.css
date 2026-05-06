@@ -17,3 +17,7 @@ button{border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:poin
 .graph{display:flex;flex-direction:column;gap:6px;font-size:14px}
 .edge{padding:8px;border:1px dashed #cad3f0;border-radius:8px;background:#f8faff}
 @media (max-width:980px){.app{grid-template-columns:1fr}.workspace{grid-template-rows:auto auto}}
+
+.step-card.is-start{outline:2px solid var(--pri);box-shadow:0 10px 28px rgba(79,124,255,.2)}
+.step-card.is-start::before{content:"Стартовый шаг";font-size:12px;font-weight:700;color:var(--pri)}
+.make-start{white-space:nowrap}

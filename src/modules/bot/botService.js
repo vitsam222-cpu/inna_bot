@@ -52,10 +52,16 @@ function toButtons(step) {
   });
 }
 
-async function sendWelcome(chatId) {
+async function sendStart(chatId) {
   const scenario = loadScenario();
   const welcomeText = scenario?.welcome?.text || 'Привет!';
+  const startStep = scenario.steps.find((step) => step.id === scenario.startStepId);
+
   await sendMessage(chatId, welcomeText, []);
+
+  if (startStep) {
+    await sendMessage(chatId, startStep.text || '', toButtons(startStep));
+  }
 }
 
 export async function handleWebhook(update) {
@@ -89,7 +95,8 @@ export async function handleWebhook(update) {
   }
 
   if (!sessions.has(chatId) || text === '/start' || update?.update_type === 'bot_started') {
-    sessions.set(chatId, 'start');
-    await sendWelcome(chatId);
+    const scenario = loadScenario();
+    sessions.set(chatId, scenario.startStepId);
+    await sendStart(chatId);
   }
 }

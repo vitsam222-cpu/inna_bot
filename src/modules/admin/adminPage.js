@@ -13,6 +13,8 @@ export function renderAdminPage(adminKey) {
       <h1>Flow</h1>
       <label>Приветствие</label>
       <textarea id="welcomeText" placeholder="Текст приветствия"></textarea>
+      <label>Стартовый шаг</label>
+      <select id="startStepId"></select>
       <button id="addStep" class="ghost">+ Шаг</button>
       <button id="save" class="primary">Сохранить</button>
     </aside>
@@ -29,6 +31,7 @@ export function renderAdminPage(adminKey) {
     <article class="step-card">
       <div class="row">
         <input class="step-id" placeholder="id шага" />
+        <button class="make-start ghost">Старт</button>
         <button class="remove-step danger">✕</button>
       </div>
       <textarea class="step-text" placeholder="Текст шага"></textarea>

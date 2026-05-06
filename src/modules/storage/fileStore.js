@@ -6,6 +6,7 @@ import { env } from '../../config/env.js';
 const scenarioPath = path.join(env.dataDir, 'scenario.json');
 
 const defaultScenario = {
+  startStepId: 'start',
   welcome: { text: 'Привет! Добро пожаловать.', image: '' },
   steps: [
     { id: 'start', text: 'Это первый шаг', image: '', buttons: [] }

@@ -1,4 +1,5 @@
 {
+  "startStepId": "start",
   "welcome": {
     "text": "Привет! Добро пожаловать.",
     "image": ""
