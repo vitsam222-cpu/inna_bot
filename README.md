@@ -65,6 +65,41 @@ chmod +x deploy.sh
 APP_DIR=/opt/inna_bot BRANCH=main PM2_NAME=max-bot ./deploy.sh
 ```
 
+
+
+## Самый простой режим без домена: Long Polling
+
+Для старта используйте **Long Polling**. В этом режиме MAX не должен заходить на ваш сервер по webhook. Бот сам спрашивает MAX о новых сообщениях. Поэтому не нужен домен, HTTPS и Nginx.
+
+В `.env` поставьте:
+
+```env
+BOT_MODE=polling
+MAX_API_BASE=https://platform-api.max.ru
+MAX_BOT_TOKEN=your_real_token
+```
+
+Запуск:
+
+```bash
+pm2 restart max-bot
+pm2 logs max-bot --lines 100
+```
+
+В логах должно появиться:
+
+```text
+[polling] started
+```
+
+Админка при этом открывается по IP:
+
+```text
+http://YOUR_SERVER_IP:8080/admin?key=YOUR_ADMIN_KEY
+```
+
+Webhook можно не настраивать. Он оставлен в коде на будущее, если позже появится домен или HTTPS.
+
 ## Если бот не отвечает
 
 Чаще всего причина одна из этих:

@@ -23,5 +23,8 @@ export const env = {
   maxApiBase: process.env.MAX_API_BASE || 'https://platform-api.max.ru',
   adminKey: process.env.ADMIN_KEY || 'change_me',
   dataDir: process.env.DATA_DIR || './data',
-  uploadDir: process.env.UPLOAD_DIR || './src/public/uploads'
+  uploadDir: process.env.UPLOAD_DIR || './src/public/uploads',
+  botMode: process.env.BOT_MODE || 'polling',
+  pollingTimeoutSeconds: Number(process.env.POLLING_TIMEOUT_SECONDS || 30),
+  pollingLimit: Number(process.env.POLLING_LIMIT || 100)
 };
